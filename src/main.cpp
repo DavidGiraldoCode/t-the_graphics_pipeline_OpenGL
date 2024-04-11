@@ -19,7 +19,7 @@ GLuint createShaderProgram()
         "void main(void) \n"
         "{ gl_Position = vec4(0.0, 0.0, 0.0, 1.0); }";
     const char *fshaderSource =
-        "#version 410 \n"
+        "#version 400 \n"
         "out vec4 color; \n"
         "oid main(void) \n"
         "{ color = vec4(0.0, 0.0, 1.0, 1.0);}";
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
         return -1;
     }
     /* window hints specify that the machine must be compatible with OpenGL version 4*/
-    // glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
     /* Create a windowed mode window and its OpenGL context */
     /*Last two parms allow full screen mode and resource sharing*/
