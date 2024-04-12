@@ -1,10 +1,13 @@
-#ifdef __APPLE__
+//#ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
+
+#include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include <OpenGL/gl.h>
-#include <OpenGL/glext.h>
-#endif
+
+// #include <OpenGL/gl.h>
+// #include <OpenGL/glext.h>
+// #endif
 
 using namespace std;
 #define numVAOs 1
@@ -19,9 +22,9 @@ GLuint createShaderProgram()
         "void main(void) \n"
         "{ gl_Position = vec4(0.0, 0.0, 0.0, 1.0); }";
     const char *fshaderSource =
-        "#version 400 \n"
+        "#version 410 \n"
         "out vec4 color; \n"
-        "oid main(void) \n"
+        "void main(void) \n"
         "{ color = vec4(0.0, 0.0, 1.0, 1.0);}";
 
     GLuint vShader = glCreateShader(GL_VERTEX_SHADER);
@@ -44,11 +47,29 @@ GLuint createShaderProgram()
         return -1;
     }
 
+    glGetShaderiv(fShader, GL_COMPILE_STATUS, &status);
+    if (status != GL_TRUE)
+    {
+        char buffer[512];
+        glGetShaderInfoLog(fShader, 512, NULL, buffer);
+        std::cerr << "Fragment shader compilation failed: " << buffer << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
     GLuint vfProgram = glCreateProgram();
     glAttachShader(vfProgram, vShader);
     glAttachShader(vfProgram, fShader);
 
     glLinkProgram(vfProgram);
+
+    glGetProgramiv(vfProgram, GL_LINK_STATUS, &status);
+    if (status != GL_TRUE)
+    {
+        char buffer[512];
+        glGetProgramInfoLog(vfProgram, 512, NULL, buffer);
+        std::cerr << "Shader program linking failed: " << buffer << std::endl;
+        exit(EXIT_FAILURE);
+    }
 
     return vfProgram;
 }
@@ -56,8 +77,10 @@ GLuint createShaderProgram()
 void init(GLFWwindow *window)
 {
     renderingProgram = createShaderProgram();
-    glGenVertexArraysAPPLE(numVAOs, vao);
-    glBindVertexArrayAPPLE(vao[0]);
+    // glGenVertexArraysAPPLE(numVAOs, vao);
+    // glBindVertexArrayAPPLE(vao[0]);
+    glGenVertexArrays(numVAOs, vao);
+    glBindVertexArray(vao[0]);
 }
 
 void display(GLFWwindow *window, double currentTime)
@@ -68,6 +91,7 @@ void display(GLFWwindow *window, double currentTime)
     // glClear(GL_COLOR_BUFFER_BIT);
 
     glUseProgram(renderingProgram);
+    // std::cout << "Display\n";
     glPointSize(30.0f);
     glDrawArrays(GL_POINTS, 0, 1);
 }
@@ -82,7 +106,8 @@ int main(int argc, char *argv[])
         return -1;
     }
     /* window hints specify that the machine must be compatible with OpenGL version 4*/
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    // glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
     /* Create a windowed mode window and its OpenGL context */
     /*Last two parms allow full screen mode and resource sharing*/
@@ -95,6 +120,11 @@ int main(int argc, char *argv[])
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
+
+    const GLubyte *renderer = glGetString(GL_RENDERER);
+    const GLubyte *version = glGetString(GL_VERSION);
+    std::cout << "Renderer: " << renderer << std::endl;
+    std::cout << "OpenGL version supported: " << version << std::endl;
 
     /*Vertical synchronization (VSync) is enabled*/
     glfwSwapInterval(1);
