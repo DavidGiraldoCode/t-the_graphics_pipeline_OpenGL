@@ -4,6 +4,7 @@
 
 #include<stb/stb_image.h> //Thirdparty open source library
 
+#include"Texture.h"
 #include "shaderClass.h"
 #include "VAO.h"
 #include "VBO.h"
@@ -121,6 +122,9 @@ int main()
 		// Assigns a value to the uniform; NOTE: Must always be done after activating the Shader Program
 		glUniform1f(uniID, 0.5f);
 
+		// Binds texture so that is appears in rendering
+		popCat.Bind();
+
 		// Bind the VAO so OpenGL knows to use it
 		VAO1.Bind();
 
@@ -136,6 +140,7 @@ int main()
 	VAO1.Delete();
 	VBO1.Delete();
 	EBO1.Delete();
+	popCat.Delete();
 	shaderProgram.Delete();
 
 	// Delete window before ending the program
