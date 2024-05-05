@@ -152,6 +152,8 @@ int main()
 		int projLoc = glGetUniformLocation(shaderProgram.ID, "proj");
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
 
+		//Activate the shader program, bind everything that is neede for that render pass
+		//Hardcoded the 4, the uniform may be having problems.	
 
 		// Assigns a value to the uniform; NOTE: Must always be done after activating the Shader Program
 		glUniform1f(uniID, 0.5f);
