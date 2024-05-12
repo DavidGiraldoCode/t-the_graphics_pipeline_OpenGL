@@ -2,6 +2,7 @@
 
 OpenGL is a graphics API in C that allow us to communicate the CPU with the GPU, sending large batches of geometric data so the GPU’s multi processing capabilities can transform them into pixels.  The graphics pipeline is the process of transforming (mapping) the 3D data sent to the GPU into a 2D coordinate system to be displayed into a screen. The vertex is the single unit of data, which holds attributes (3D coordinates, color values, normals, among other) that allow the pipeline lo render those vertices into the screen in the form of pixels.
 
+## Over simplification of the process
 ```mermaid
 flowchart LR
    Z[Vextex data] --> 
