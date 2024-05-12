@@ -1,4 +1,5 @@
-# The graphics pipeline, the magic behind any AAA video game
+# The graphics pipeline
+*The magic behind any AAA video game*
 
 OpenGL is a graphics API in C that allows us to communicate the CPU with the GPU, sending large batches of geometric data so the GPU’s multi-processing capabilities can transform them into pixels.  The graphics pipeline is the process of transforming (mapping) the 3D data sent to the GPU into a 2D coordinate system to be displayed on a screen. The vertex is the single unit of data, which holds attributes (3D coordinates, color values, normals, among others) that allow the pipeline to render those vertices into the screen in the form of pixels.
 
@@ -22,6 +23,7 @@ glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //State-setting
 glClear(GL_COLOR_BUFFER_BIT); //State-using function
 ```
 <br/>
+
 ## Is it all OpenGL 3D? (Viewer - Object)
 
 There is a fundamental difference between rasterizing pixels on the screen and representing 3D coordinates into a 2D viewport. We need a viewer and an object to represent an image on the screen. In this context, the viewer is a synthetic agent we call a camera, and the object is any geometry within the viewer's field of view. Many graphics libraries and game engines use the same model: they have at least one camera on the scene and objects (GameObjects in Unity or the Actors Unreal).
